@@ -15,7 +15,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div>
-          <PrivateRoute exact path="/weather-rock" component={Map} />
+          <PrivateRoute exact path="/" component={Map} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/signup' component={Signup} />
         </div>

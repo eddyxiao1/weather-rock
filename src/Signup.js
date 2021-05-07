@@ -10,7 +10,7 @@ const SignUp = ({ history }) => {
             await firebase
                 .auth()
                 .createUserWithEmailAndPassword(email.value, password.value);
-            history.push("/weather-rock");
+            history.push("/");
         } catch (error) {
             alert(error);
         }
