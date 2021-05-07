@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/weather-rock/static/js/main.396d5d46.chunk.js",
+    "main.js.map": "/weather-rock/static/js/main.396d5d46.chunk.js.map",
+    "runtime-main.js": "/weather-rock/static/js/runtime-main.d44d48b3.js",
+    "runtime-main.js.map": "/weather-rock/static/js/runtime-main.d44d48b3.js.map",
+    "static/css/2.0d309abc.chunk.css": "/weather-rock/static/css/2.0d309abc.chunk.css",
+    "static/js/2.b1e940ab.chunk.js": "/weather-rock/static/js/2.b1e940ab.chunk.js",
+    "static/js/2.b1e940ab.chunk.js.map": "/weather-rock/static/js/2.b1e940ab.chunk.js.map",
+    "index.html": "/weather-rock/index.html",
+    "static/css/2.0d309abc.chunk.css.map": "/weather-rock/static/css/2.0d309abc.chunk.css.map",
+    "static/js/2.b1e940ab.chunk.js.LICENSE.txt": "/weather-rock/static/js/2.b1e940ab.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d44d48b3.js",
+    "static/css/2.0d309abc.chunk.css",
+    "static/js/2.b1e940ab.chunk.js",
+    "static/js/main.396d5d46.chunk.js"
+  ]
+}
