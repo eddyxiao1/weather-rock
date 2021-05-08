@@ -3,6 +3,7 @@ import Axios from "axios"
 import ReactMapGL, { Marker } from 'react-map-gl'
 import "bulma/css/bulma.css"
 import firebase from "./Firebase";
+import GoogleMapReact from 'google-map-react';
 
 
 let lat = getRandomIntInclusive(24, 49);
@@ -20,15 +21,14 @@ function Map() {
   const [weather, setWeather] = useState("");
   const [name, setName] = useState("");
   const [uv, setUv] = useState("");
-  const [maxUV,setMaxUV] = useState("");
+  const [maxUV, setMaxUV] = useState("");
   const [aqi, setAqi] = useState("");
-  const [category, setCategory] = useState("");
-  const [wind,setWind] = useState("");
-  const [elevation,setElevation] = useState("");
+  const [wind, setWind] = useState("");
+  const [elevation, setElevation] = useState("");
 
 
   const getWeatherData = () => {
-    const url = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=42e75c3564f665404846ea321f25c74b";
+    const url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=42e75c3564f665404846ea321f25c74b";
     Axios.get(url).then(
       (response) => {
         setName("The weather in " + response.data.name + ":")
@@ -43,46 +43,47 @@ function Map() {
     Axios({
       url: parseUrl,
       method: 'GET',
-      headers: {'x-access-token': '9675ed048f59cc0c1d9f2550d1806cfd'},
+      headers: { 'x-access-token': '9675ed048f59cc0c1d9f2550d1806cfd' },
     }).then(response => {
       setUv("The UV index is : " + response['data']['result']['uv']);
       setMaxUV("The Max UV index is : " + response['data']['result']['uv_max']);
-   }) 
+    })
   }
 
   const getaq = () => {
-    const parseUrl = "https://api.aerisapi.com/airquality/[" + lat + "," + lon + "]?format=json&client_id=AcxJ7pqDEeRA8kcDUOTPS&client_secret=7tOA7yRcLFb40YCCoXq0ccUMtD4ZZJarCgNjOrtL";
+
+
+
+    const parseUrl = "https://api.weatherbit.io/v2.0/current/airquality?lat=" + lat + "&lon=" + lon + "&key=c818a38dedb04e94904fffc129144319";
     Axios.get(parseUrl).then(
       (response) => {
-        setAqi("The AQI is: " + response['data']['response'][0]['periods'][0]['aqi']);
-        setCategory("The Air Category is: " + response['data']['response'][0]['periods'][0]['category']);
+        setAqi("The AQI is: " + response['data']['data'][0]['aqi']);
       });
 
   }
 
   const getWind = () => {
-    const parseUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat +","+lon+"?key=7MS79MED8EDRBE7HG6UK3SE2E"
+    const parseUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + lat + "," + lon + "?key=7MS79MED8EDRBE7HG6UK3SE2E"
     Axios.get(parseUrl).then(
       (response) => {
-        console.log(response)
-        setWind("Wind Speed: " + response["data"]['currentConditions']['windspeed']+ " mph");
+        setWind("Wind Speed: " + response["data"]['currentConditions']['windspeed'] + " mph");
       });
   }
 
   const getElevation = () => {
-    const parseUrl = 'https://api.stormglass.io/v2/elevation/point?lat='+lat+'&lng='+lon;
+    const parseUrl = 'https://api.stormglass.io/v2/elevation/point?lat=' + lat + '&lng=' + lon;
     Axios({
       url: parseUrl,
       method: 'GET',
-      headers: {'Authorization': '0cd270b8-af6a-11eb-9f40-0242ac130002-0cd2713a-af6a-11eb-9f40-0242ac130002'},
+      headers: { 'Authorization': '0cd270b8-af6a-11eb-9f40-0242ac130002-0cd2713a-af6a-11eb-9f40-0242ac130002' },
     }).then(response => {
       setElevation("Elevation relative to sea level is " + response['data']['data']['elevation'] + " meters");
-   }) 
+    })
   }
 
-  function refreshPage(){ 
-    window.location.reload(); 
-}
+  function refreshPage() {
+    window.location.reload();
+  }
 
   const [viewport, setViewport] = useState({
     latitude: lat,
@@ -95,32 +96,17 @@ function Map() {
 
   return (
     <div class='columns'>
-      <ReactMapGL
-        {...viewport}
-        //map api
-        mapboxApiAccessToken={"pk.eyJ1IjoiZWRkeXhpYW8iLCJhIjoiY2tvNjJyOWk4MTJvbjJucGRkaDg2cHBnZyJ9.A5nBAVaLyyjd00Kyu9QvxQ"}
-        mapStyle="mapbox://styles/eddyxiao/cko63lit92mj917rtnmkmxdp6"
-        onViewportChange={viewport => {
-          setViewport(viewport);
-        }}
-
-        style={{ float: 'left' }}
-
-      >
-
-        <Marker
-          latitude={lat}
-          longitude={lon}
-          offsetTop={(-viewport.zoom * 2)}
+      <div class='column is-9'>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: 'AIzaSyD3gbMrVK_RYSqeTJXCPURuAiWikzfBh1Q' }}
+          defaultCenter={{ lat: lat, lng: lon }}
+          defaultZoom={8}
         >
-          <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
-            width={viewport.zoom * 4}
-            height={viewport.zoom * 4} />
-        </Marker>
 
-      </ReactMapGL>
+        </GoogleMapReact>
+      </div>
 
-      <div class="column" style={{ float: 'right' }}>
+      <div class="column">
         <div class="box">
           <button class='button is-link' onClick={getWeatherData}>Get Weather</button>
           <div>{name}</div>
@@ -128,26 +114,25 @@ function Map() {
           <div>{temperature}</div>
         </div>
         <div class="box">
-          <button class = 'button is-link' onClick={getUv}>Get UV Index</button>
+          <button class='button is-link' onClick={getUv}>Get UV Index</button>
           <div>{uv}</div>
           <div>{maxUV}</div>
         </div>
         <div class="box">
-          <button class = 'button is-link' onClick={getaq}>Get Air Quality</button>
+          <button class='button is-link' onClick={getaq}>Get Air Quality</button>
           <div>{aqi}</div>
-          <div>{category}</div>
         </div>
         <div class="box">
-          <button class = 'button is-link' onClick={getWind}>Get Wind Speed</button>
+          <button class='button is-link' onClick={getWind}>Get Wind Speed</button>
           <div>{wind}</div>
         </div>
         <div class="box">
-          <button class = 'button is-link' onClick={getElevation}>Get Elevation</button>
+          <button class='button is-link' onClick={getElevation}>Get Elevation</button>
           <div>{elevation}</div>
         </div>
-        <div class = "box">
-          <button class = "button is-link mr-2" onClick={refreshPage}>Reload</button>
-          <button class = "button is-link" onClick={()=>firebase.auth().signOut()}>Log Out</button>
+        <div class="box">
+          <button class="button is-link mr-2" onClick={refreshPage}>Reload</button>
+          <button class="button is-link" onClick={() => firebase.auth().signOut()}>Log Out</button>
         </div>
       </div>
 
