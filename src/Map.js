@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import Axios from "axios"
-import ReactMapGL, { Marker } from 'react-map-gl'
 import "bulma/css/bulma.css"
 import firebase from "./Firebase";
 import GoogleMapReact from 'google-map-react';
